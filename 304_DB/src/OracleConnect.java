@@ -8,23 +8,20 @@ public class OracleConnect {
 	public Connection con;
 	public Statement stm;
 
-	public static void main(String[] args) {
-	}
-	
-	
-	public void connect(){
+	public OracleConnect(){
 		try {
 			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 			
 			con = DriverManager.getConnection(
 					"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
-					"ora_v5f0b",
-					"a38894135");
+					"ora_ugrad",
+					"a_stuID");
 			
 			stm = con.createStatement();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("Unable to connect.");
 		}
 	}
 	
@@ -34,6 +31,10 @@ public class OracleConnect {
 	
 	public void endConnection() throws SQLException{
 		con.close();
+	}
+	
+	public Statement getStatement(){
+		return stm;
 	}
 	
 }
