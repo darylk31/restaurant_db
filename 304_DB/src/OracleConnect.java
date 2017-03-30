@@ -7,7 +7,6 @@ import java.sql.Connection;
 public class OracleConnect {
 	
 	public Connection con;
-	public Statement stm;
 
 	public OracleConnect(){
 		try {
@@ -17,9 +16,6 @@ public class OracleConnect {
 					"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
 					"ora_ugrad",
 					"a_stuID");
-			
-			stm = con.createStatement();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Unable to connect.");
@@ -34,14 +30,14 @@ public class OracleConnect {
 		con.close();
 	}
 	
-	public Statement getStatement(){
-		return stm;
+	public Statement getStatement() throws SQLException{
+		return con.createStatement();
 	}
 	
-	public ResultSet selectTable(String table){
+	public ResultSet selectAll(String table){
 		ResultSet result = null;
 		try {
-			result = stm.executeQuery("SELECT * FROM " + table);
+			result = con.createStatement().executeQuery("SELECT * FROM " + table);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Query error.");
