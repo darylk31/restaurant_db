@@ -9,6 +9,7 @@ public class OracleConnect {
 	public Connection con;
 
 	public OracleConnect(){
+		/*
 		try {
 			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 			
@@ -20,6 +21,25 @@ public class OracleConnect {
 			e.printStackTrace();
 			System.out.println("Unable to connect.");
 		}
+		
+		System.out.println("Connected");
+		*/
+	}
+	
+	//JUnit test for connecting to ugrad.
+	public boolean testConnect(){
+		try {
+			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+			
+			con = DriverManager.getConnection(
+					"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
+					"ora_t7y9a@ug",
+					"a39455134");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
 	public Connection getConnection(){
