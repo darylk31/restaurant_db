@@ -1,4 +1,5 @@
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
@@ -35,6 +36,17 @@ public class OracleConnect {
 	
 	public Statement getStatement(){
 		return stm;
+	}
+	
+	public ResultSet selectTable(String table){
+		ResultSet result = null;
+		try {
+			result = stm.executeQuery("SELECT * FROM " + table);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Query error.");
+		}
+		return result;
 	}
 	
 }
