@@ -14,8 +14,8 @@ public class OracleConnect {
 			
 			con = DriverManager.getConnection(
 					"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
-					"ora_ugrad",
-					"a_stuID");
+					"ora_t7y9a",
+					"a39455134");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Unable to connect.");
