@@ -9,51 +9,31 @@ public class Manager {
 		oracleConnect = new OracleConnect();
 	}
 	
-	public ResultSet deliveryQuery(){
-		return oracleConnect.selectTable("delivery");
+	public ResultSet findEmployee(String id) throws SQLException{
+		if (id.isEmpty()) {
+			return oracleConnect.selectAll("employee");
+			}
+		else return oracleConnect.getStatement().executeQuery("SELECT FROM employee WHERE id = " + id );
 	}
 	
-	public ResultSet dineInQuery(){
-		return oracleConnect.selectTable("dinein");
+	public ResultSet findInventory(String id) throws SQLException{
+		if (id.isEmpty()) {
+			return oracleConnect.selectAll("inventory");
+			}
+		else return oracleConnect.getStatement().executeQuery("SELECT FROM inventory WHERE id = " + id );
 	}
 	
-	public ResultSet takeOutQuery(){
-		return oracleConnect.selectTable("takeout");
+	public ResultSet findMenu(String id) throws SQLException{
+		if (id.isEmpty()) {
+			return oracleConnect.selectAll("menu");
+			}
+		else return oracleConnect.getStatement().executeQuery("SELECT FROM menu WHERE id = " + id );
 	}
 	
-	public ResultSet orderQuery(){
-		return oracleConnect.selectTable("order");
-	}
-	
-	public ResultSet employeeQuery(){
-		return oracleConnect.selectTable("employee");
-	}
-	
-	public ResultSet inventoryQuery(){
-		return oracleConnect.selectTable("inventory");
-	}
-	
-	public ResultSet customerQuery(){
-		return oracleConnect.selectTable("customer");
-	}
-	
-	public ResultSet menuQuery(){
-		return oracleConnect.selectTable("menu");
-	}
-	
-	public ResultSet accountQuery(){
-		return oracleConnect.selectTable("account");
-	}
-	
-	public ResultSet kitchenQuery(){
-		return oracleConnect.selectTable("kitchen");
-	}
-	
-	public ResultSet frontEndQuery(){
-		return oracleConnect.selectTable("frontend");
-	}
-	
-	public ResultSet delivererQuery(){
-		return oracleConnect.selectTable("deliverer");
+	public ResultSet findOrder(String id) throws SQLException{
+		if (id.isEmpty()) {
+			return oracleConnect.selectAll("order");
+			}
+		else return oracleConnect.getStatement().executeQuery("SELECT FROM order WHERE id = " + id );
 	}
 }

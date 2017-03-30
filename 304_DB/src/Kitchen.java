@@ -1,11 +1,8 @@
 
-public class FrontEnd {
-	
+public class Kitchen {
 	OracleConnect oracleConnect;
 	
-	public FrontEnd(){	
+	public Kitchen(){
 		oracleConnect = new OracleConnect();
 	}
-	
-
 }
