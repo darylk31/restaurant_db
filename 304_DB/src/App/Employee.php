@@ -1,41 +1,13 @@
 <select id="classSelect" onchange="location = this.value;">
-	<option value="Manager.php">Manager</option>
 	<option value="Employee.php">Employee</option>
+	<option value="Manager.php">Manager</option>
 	<option value="Customer.php">Customer</option>
 </select>	
 <p><font size ="2"> Find employee:</font></p>
-<form method="POST" action="Manager.php">
+<form method="POST" action="Employee.php">
 <!--refresh page when submit-->
 	<p><input type="number" size="4">
 	<!--define one variable to pass the value-->
-	<button type="managerButton"
-			onclick="popup()">
-			Submit</button>
-</form>
-<p><font size="2"> Grab menu:</font></p>
-<form method="POST" action="Manager.php">
-	<p><input type="number" size="4">
-	<button type="managerButton"
-			onclick="popup()">
-			Submit</button>
-</form>
-<p><font size="2"> Grab inventory:</font></p>
-<form method="POST" action="Manager.php">
-	<p><input type="number" size="4">
-	<button type="managerButton"
-			onclick="popup()">
-			Submit</button>
-</form>
-<p><font size="2"> Grab orders:</font></p>
-<form method="POST" action="Manager.php">
-	<p><input type="number" size="4">
-	<button type="managerButton"
-			onclick="popup()">
-			Submit</button>
-</form>
-<p><font size="2"> Grab account:</font></p>
-<form method="POST" action="Manager.php">
-	<p><input type="number" size="4">
 	<button type="managerButton"
 			onclick="popup()">
 			Submit</button>
@@ -89,7 +61,7 @@ if ($db_conn) {
 echo "<br>Started Connection<br>";
 if ($_POST && !$error) {
 		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
-		header("location: Manager.php");
+		header("location: Employee.php");
 	} else {
 		// Select data...
 		$result = executePlainSQL("select * from employee");
