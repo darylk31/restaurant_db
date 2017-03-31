@@ -6,12 +6,12 @@
 <p><font size ="2"> Find employee:</font></p>
 <form method="POST" action="Manager.php">
 <!--refresh page when submit-->
-	<p><input type="number" size="4">
+	<p><input type="number" name="insertemployee" size="4">
 	<!--define one variable to pass the value-->
 	<button type="managerButton"
-			onclick="popup()">
+			onclick="window.location.reload();">
 			Submit</button>
-</form>
+</form></p>
 <p><font size="2"> Grab menu:</font></p>
 <form method="POST" action="Manager.php">
 	<p><input type="number" size="4">
@@ -45,7 +45,7 @@
 
 $error = False;
 $db = "(DESCRIPTION=(ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = dbhost.ugrad.cs.ubc.ca)(PORT = 1522)))(CONNECT_DATA=(SID=ug)))";
-$db_conn = OCILogon("ora_e1h0b", "a32199135", "$db");
+$db_conn = OCILogon("ora_v5f0b", "a38894135", "$db");
 
 function executePlainSQL($cmdstr) { //takes a plain (no bound variables) SQL command and executes it
 	//echo "<br>running ".$cmdstr."<br>";
@@ -87,11 +87,11 @@ function printResult($result) { //prints results from a select statement
 
 if ($db_conn) {
 echo "<br>Started Connection<br>";
-if ($_POST && !$error) {
+	if ($_POST && !$error) {
 		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
 		header("location: Manager.php");
 	} else {
-		// Select data...
+	// Select data...
 		$result = executePlainSQL("select * from employee");
 		printResult($result);
 	}
@@ -105,6 +105,7 @@ if ($_POST && !$error) {
 }
 
 
-
-
 ?>
+
+
+
