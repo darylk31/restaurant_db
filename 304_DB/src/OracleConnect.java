@@ -6,20 +6,21 @@ import java.sql.Connection;
 
 public class OracleConnect {
 	
-	public static Connection con;
+	Connection con = null;
 
 	public OracleConnect(){
 		try {
 			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 			
 			con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug",
+					"jdbc:oracle:thin:@localhost:1522:ug",
 					"ora_v5f0b",
 					"a38894135");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Unable to connect.");
 		}
+	
 	}
 	
 	public Connection getConnection(){

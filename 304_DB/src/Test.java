@@ -8,5 +8,4 @@ public class Test {
 		Boolean test= oc.endConnection();
 		assertTrue(test);
 	}
-
 }
