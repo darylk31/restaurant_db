@@ -89,7 +89,7 @@ if ($db_conn) {
 echo "<br>Started Connection<br>";
 if ($_POST && !$error) {
 		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
-		header("location: oracle-test.php");
+		header("location: Manager.php");
 	} else {
 		// Select data...
 		$result = executePlainSQL("select * from employee");
