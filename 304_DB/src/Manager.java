@@ -23,6 +23,8 @@ public class Manager {
 		else return oracleConnect.getStatement().executeQuery("SELECT FROM inventory WHERE id = " + id );
 	}
 	
+	
+	
 	public ResultSet findMenu(String id) throws SQLException{
 		if (id.isEmpty()) {
 			return oracleConnect.selectAll("menu");
