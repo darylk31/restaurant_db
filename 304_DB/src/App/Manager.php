@@ -6,7 +6,7 @@
 <p><font size ="2"> Find employee:</font></p>
 <form method="POST" action="Manager.php">
 <!--refresh page when submit-->
-	Id:<input type="number" name="eId" size="4"> Table:<input type="text" name ="table" size="18">
+	ID:<input type="number" name="eId" size="4"> Table:<input type="text" name ="table" size="18">
 	<!--define one variable to pass the value-->
 	<input type="submit" value="submit" name="doStuff">
 	
