@@ -44,6 +44,13 @@
 	<input type="submit" value="submit" name="customer">
 </form>
 
+<p><font size="2"> Test a nested query:</font></p>
+<form method="POST" action="Manager.php">
+<input type="submit" value="Perform nested query" name="testquery">
+</form>
+
+
+
 <?php
 
 $error = False;
@@ -116,13 +123,22 @@ function executeBoundSQL($cmdstr, $list) {
 function printResult($result) { //prints results from a select statement
 	echo "<br>Got data from table employee:<br>";
 	echo "<table>";
-	echo "<tr><th>ID</th><th>Name</th></tr>";
+//	echo "<tr><th>ID</th><th>Name</th></tr>";
 
 	while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
-		echo "<tr><td>" . $row[0] . "</td><td>" . $row[1] . "</td></tr>"; //or just use "echo $row[0]"
+		echo "<tr><td>" . $row[0] . "</td><td>" 
+		. $row[1] . "</td><td>" . $row[2] . "</td><td>" 
+		. $row[3] . "</td><td>" . $row[4] . "</td><td>"
+		. $row[5] . "</td><td>" . $row[6] . "</td><td>" 		
+		. $row[7] . "</td></tr>"; //or just use "echo $row[0]"
 	}
 	echo "</table>";
 
+}
+
+function testNestedQuery() {
+	$result = executePlainSQL("select itemName,price,AVG(price) from menu");// where price < (select AVG(price) from menu)");
+	printResult($result);
 }
 
 if ($db_conn) {
@@ -154,6 +170,9 @@ if ($db_conn) {
 		$result = executePlainSQL("select * from " . $_POST['table'] . " where orderID =" . $_POST['orderID'] ."");
 		printResult($result);
 	}
+	if (array_key_exists('testquery', $_POST)) {
+		testNestedQuery();
+	}
 	
 echo "<br>Started Connection<br>";
 	if ($_POST && $error) {
@@ -161,7 +180,7 @@ echo "<br>Started Connection<br>";
 		header("location: Manager.php");
 	} else {
 	// Select data...
-		$result = executePlainSQL($cmdstr);
+		$result = executePlainSQL("select ");
 		printResult($result);
 	}
 
