@@ -4,13 +4,13 @@
 	<option value="Customer.php">Customer</option>
 </select>	
 <p><font size ="2"> Find employee:</font></p>
-<form method="POST" action="Manager.php">
+<form method="GET" action="Manager.php">
 <!--refresh page when submit-->
-	<p><input type="number" name="insertemployee" size="4">
+	eId: <p><input type="findEmployee" name="eId">
 	<!--define one variable to pass the value-->
-	<button type="managerButton"
-			onclick="window.location.reload();">
-			Submit</button>
+	<input type="submit"
+			value="Submit">
+	
 </form></p>
 <p><font size="2"> Grab menu:</font></p>
 <form method="POST" action="Manager.php">
@@ -47,6 +47,30 @@ $error = False;
 $db = "(DESCRIPTION=(ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = dbhost.ugrad.cs.ubc.ca)(PORT = 1522)))(CONNECT_DATA=(SID=ug)))";
 $db_conn = OCILogon("ora_v5f0b", "a38894135", "$db");
 
+function findEmployee($cmdstr) {
+    global $db_conn, $error;
+    $statement = OCIParse($db_conn, "select * from employee where id = 1");
+
+    if (!$statement) {
+    		echo "<br>Cannot parse the following command: " . $cmdstr . "<br>";
+    		$e = OCI_Error($db_conn); // For OCIParse errors pass the
+    		// connection handle
+    		echo htmlentities($e['message']);
+    		$error = True;
+    	}
+
+    	$r = OCIExecute($statement, OCI_DEFAULT);
+    	if (!$r) {
+    		echo "<br>Cannot execute the following command: " . $cmdstr . "<br>";
+    		$e = oci_error($statement); // For OCIExecute errors pass the statementhandle
+    		echo htmlentities($e['message']);
+    		$error = True;
+    	} else {
+
+    	}
+    	return $statement;
+}
+
 function executePlainSQL($cmdstr) { //takes a plain (no bound variables) SQL command and executes it
 	//echo "<br>running ".$cmdstr."<br>";
 	global $db_conn, $error;
@@ -79,20 +103,29 @@ function printResult($result) { //prints results from a select statement
 	echo "<tr><th>ID</th><th>Name</th></tr>";
 
 	while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
-		echo "<tr><td>" . $row["NID"] . "</td><td>" . $row["NAME"] . "</td></tr>"; //or just use "echo $row[0]" 
+		echo "<tr><td>" . $row["ID"] . "</td><td>" . $row["NAME"] . "</td></tr>"; //or just use "echo $row[0]"
 	}
 	echo "</table>";
 
 }
 
 if ($db_conn) {
+
+    if (isset($_POST['action'])) {
+        switch ($_POST['action']) {
+        case 'findEmployee':
+            findEmployee($_GET['eId']);
+            break;
+        }
+    }
+
 echo "<br>Started Connection<br>";
 	if ($_POST && !$error) {
 		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
 		header("location: Manager.php");
 	} else {
 	// Select data...
-		$result = executePlainSQL("select * from employee");
+		$result = findEmployee($cmdstr);
 		printResult($result);
 	}
 
