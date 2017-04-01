@@ -48,7 +48,7 @@ $db_conn = OCILogon("ora_v5f0b", "a38894135", "$db");
 
 function findEmployee($cmdstr) {
     global $db_conn, $error;
-    $statement = OCIParse($db_conn, "select * from employee where id = 1");
+    $statement = OCIParse($db_conn, "select * from $cmdstr where id = $cmdstr");
 
     if (!$statement) {
     		echo "<br>Cannot parse the following command: " . $cmdstr . "<br>";
@@ -96,6 +96,43 @@ function executePlainSQL($cmdstr) { //takes a plain (no bound variables) SQL com
 
 }
 
+function executeBoundSQL($cmdstr, $list) {
+	/* Sometimes a same statement will be excuted for severl times, only
+	 the value of variables need to be changed.
+	 In this case you don't need to create the statement several times; 
+	 using bind variables can make the statement be shared and just 
+	 parsed once. This is also very useful in protecting against SQL injection. See example code below for       how this functions is used */
+
+	global $db_conn, $success;
+	$statement = OCIParse($db_conn, $cmdstr);
+
+	if (!$statement) {
+		echo "<br>Cannot parse the following command: " . $cmdstr . "<br>";
+		$e = OCI_Error($db_conn);
+		echo htmlentities($e['message']);
+		$error = True;
+	}
+
+	foreach ($list as $tuple) {
+		foreach ($tuple as $bind => $val) {
+			//echo $val;
+			//echo "<br>".$bind."<br>";
+			OCIBindByName($statement, $bind, $val);
+			unset ($val); //make sure you do not remove this. Otherwise $val will remain in an array object wrapper which will not be recognized by Oracle as a proper datatype
+
+		}
+		$r = OCIExecute($statement, OCI_DEFAULT);
+		if (!$r) {
+			echo "<br>Cannot execute the following command: " . $cmdstr . "<br>";
+			$e = OCI_Error($statement); // For OCIExecute errors pass the statementhandle
+			echo htmlentities($e['message']);
+			echo "<br>";
+			$error = True;
+		}
+	}
+
+}
+
 function printResult($result) { //prints results from a select statement
 	echo "<br>Got data from table employee:<br>";
 	echo "<table>";
@@ -110,15 +147,17 @@ function printResult($result) { //prints results from a select statement
 
 if ($db_conn) {
 
-	if (array_key_exists('doStuff', $_POST) {
+	if (array_key_exists('doStuff', $_POST)) {
 		$tuple = array(
 				":bind1" => $_POST['eId'],
-				":bind2" => $_POST('table']
+				":bind2" => $_POST['table']
 		);
-		$result = executeBoundSQL("select * from :bind2 where id = :bind1", $tuple);
-		printResult($result);
-	}
-
+		$alltuples = array (
+				$tuple
+		);
+		executeBoundSQL("select * from :bind2 where id = :bind1", $alltuples);
+		OCICommit($db_conn);
+	};
 echo "<br>Started Connection<br>";
 	if ($_POST && !$error) {
 		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
