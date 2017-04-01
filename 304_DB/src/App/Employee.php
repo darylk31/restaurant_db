@@ -135,11 +135,11 @@ echo "<br>Started Connection<br>";
 	if ($_POST && $error) {
 		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
 		header("location: Manager.php");
-	} else {
+	} /*else {
 	// Select data...
 		$result = executePlainSQL($cmdstr);
 		printResult($result);
-	}
+	}*/
 
 	//Commit to save changes...
 	OCILogoff($db_conn);

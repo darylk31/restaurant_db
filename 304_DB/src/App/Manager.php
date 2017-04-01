@@ -57,7 +57,7 @@
 
 <p><font size="2"> Change wage:</font></p>
 <form method="POST" action="Manager.php">
-	eID:<input type="number" name="eId"  size="4"> Wage:<input type="number" name="wage" size="4">
+	eID:<input type="number" name="ewId"  size="4"> Wage:<input type="number" name="wage" size="4">
 	<input type="submit" value="submit" name="updateWage">
 </form>
 	
@@ -202,8 +202,9 @@ if ($db_conn) {
 	if(array_key_exists('updateWage', $_POST)) {
 		
 		//if (10 < $wage < 20) {
-			$result = executePlainSQL("update employee set employee.wage =" . $_POST['wage'] . " where employee.id=" . $_POST['eId'] ."");
-			$employee = ("select * from employee");
+			$result = executePlainSQL("update employee set wage =" . $_POST['wage'] . " where id=" . $_POST['ewId'] ."");
+			OCICommit($db_conn);
+			$employee = executePlainSQL("select * from employee");
 			printResult($employee);
 		//}
 	}
