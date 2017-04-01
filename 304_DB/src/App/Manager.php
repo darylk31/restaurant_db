@@ -4,12 +4,11 @@
 	<option value="Customer.php">Customer</option>
 </select>	
 <p><font size ="2"> Find employee:</font></p>
-<form method="GET" action="Manager.php">
+<form method="POST" action="Manager.php">
 <!--refresh page when submit-->
-	eId: <p><input type="findEmployee" name="eId">
+	eId:<input type="text" name="eId" size ="4"> Table:<input type="text" name ="table" size="18">
 	<!--define one variable to pass the value-->
-	<input type="submit"
-			value="Submit">
+	<input type="submit" value="submit" name="doStuff">
 	
 </form></p>
 <p><font size="2"> Grab menu:</font></p>
@@ -111,13 +110,14 @@ function printResult($result) { //prints results from a select statement
 
 if ($db_conn) {
 
-    if (isset($_POST['action'])) {
-        switch ($_POST['action']) {
-        case 'findEmployee':
-            findEmployee($_GET['eId']);
-            break;
-        }
-    }
+	if (array_key_exists('doStuff', $_POST) {
+		$tuple = array(
+				":bind1" => $_POST['eId'],
+				":bind2" => $_POST('table']
+		);
+		$result = executeBoundSQL("select * from :bind2 where id = :bind1", $tuple);
+		printResult($result);
+	}
 
 echo "<br>Started Connection<br>";
 	if ($_POST && !$error) {
