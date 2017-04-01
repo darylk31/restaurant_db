@@ -48,7 +48,7 @@ $db_conn = OCILogon("ora_v5f0b", "a38894135", "$db");
 
 function findEmployee($cmdstr) {
     global $db_conn, $error;
-    $statement = OCIParse($db_conn, "select * from employee where id = 1");
+    $statement = OCIParse($db_conn, "select * from $cmdstr where id = $cmdstr");
 
     if (!$statement) {
     		echo "<br>Cannot parse the following command: " . $cmdstr . "<br>";
@@ -132,7 +132,6 @@ function executeBoundSQL($cmdstr, $list) {
 	}
 
 }
-
 
 function printResult($result) { //prints results from a select statement
 	echo "<br>Got data from table employee:<br>";
