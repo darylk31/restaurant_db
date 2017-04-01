@@ -156,24 +156,13 @@ if ($db_conn) {
 		printResult($result);
 	}
 	
-	echo "<br>Started Connection<br>";
-		$tuple = array(
-				":bind1" => $_POST['eId'],
-				":bind2" => $_POST['table']
-		);
-		$alltuples = array (
-				$tuple
-		);
-		$result = executeBoundSQL("select * from :bind2 where id = :bind1", $alltuples);
-		printResult($result);
-	};
 echo "<br>Started Connection<br>";
 	if ($_POST && $error) {
 		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
 		header("location: Manager.php");
 	} else {
 	// Select data...
-		$result = findEmployee($cmdstr);
+		$result = executePlainSQL($cmdstr);
 		printResult($result);
 	}
 
