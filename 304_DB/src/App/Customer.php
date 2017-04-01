@@ -18,7 +18,7 @@
 
 <p><font size="2"> Grab account:</font></p>
 <form method="POST" action="Customer.php">
-	userID:<input type="number" name="userID" size="4"> Table:<input type="text" name ="table" size="18">
+	userID:<input type="text" name="userID" size="4"> Table:<input type="text" name ="table" size="18">
 	<input type="submit" value="submit" name="account">
 </form>
 
@@ -121,12 +121,16 @@ function executeBoundSQL($cmdstr, $list) {
 }
 
 function printResult($result) { //prints results from a select statement
-	echo "<br>Got data from table employee:<br>";
+	//echo "<br>Got data from table employee:<br>";
 	echo "<table>";
-	echo "<tr><th>ID</th><th>Name</th></tr>";
+//	echo "<tr><th>ID</th><th>Name</th></tr>";
 
 	while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
-		echo "<tr><td>" . $row[0] . "</td><td>" . $row[1] . "</td></tr>"; //or just use "echo $row[0]"
+		echo "<tr><td>" . $row[0] . "</td><td>" 
+		. $row[1] . "</td><td>" . $row[2] . "</td><td>" 
+		. $row[3] . "</td><td>" . $row[4] . "</td><td>"
+		. $row[5] . "</td><td>" . $row[6] . "</td><td>" 		
+		. $row[7] . "</td></tr>"; //or just use "echo $row[0]"
 	}
 	echo "</table>";
 
@@ -154,7 +158,7 @@ if ($db_conn) {
 echo "<br>Started Connection<br>";
 	if ($_POST && $error) {
 		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
-		header("location: Manager.php");
+		header("location: Customer.php");
 	} /*else {
 	// Select data...
 		$result = executePlainSQL($cmdstr);
