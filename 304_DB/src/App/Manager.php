@@ -6,38 +6,42 @@
 <p><font size ="2"> Find employee:</font></p>
 <form method="POST" action="Manager.php">
 <!--refresh page when submit-->
-	eId:<input type="text" name="eId" size ="4"> Table:<input type="text" name ="table" size="18">
+	Id:<input type="number" name="eId" size="4"> Table:<input type="text" name ="table" size="18">
 	<!--define one variable to pass the value-->
 	<input type="submit" value="submit" name="doStuff">
 	
 </form></p>
 <p><font size="2"> Grab menu:</font></p>
 <form method="POST" action="Manager.php">
-	<p><input type="number" size="4">
-	<button type="managerButton"
-			onclick="popup()">
-			Submit</button>
+	menuID:<input type="number" name="menuID" size="4"> itemID:<input type="number" name="itemID" size="4">
+	Table:<input type="text" name ="table" size="18">
+	<input type="submit" value="submit" name="doStuff">
 </form>
+
 <p><font size="2"> Grab inventory:</font></p>
 <form method="POST" action="Manager.php">
-	<p><input type="number" size="4">
-	<button type="managerButton"
-			onclick="popup()">
-			Submit</button>
+	itemID:<input type="number" name="itemID" size="4"> Table:<input type="text" name ="table" size="18">
+	<input type="submit" value="submit" name="doStuff">
 </form>
+
 <p><font size="2"> Grab orders:</font></p>
 <form method="POST" action="Manager.php">
-	<p><input type="number" size="4">
-	<button type="managerButton"
-			onclick="popup()">
-			Submit</button>
+	orderID:<input type="number" name="orderID" size="4"> menuID:<input type="number" name="menuID" size="4">
+	Table:<input type="text" name ="table" size="18">
+	<input type="submit" value="submit" name="doStuff">
 </form>
+
 <p><font size="2"> Grab account:</font></p>
 <form method="POST" action="Manager.php">
-	<p><input type="number" size="4">
-	<button type="managerButton"
-			onclick="popup()">
-			Submit</button>
+	userID:<input type="text" name="userID" size="20"> diningID:<input type="number" name="diningID" size="4">
+	Table:<input type="text" name ="table" size="18">
+	<input type="submit" value="submit" name="doStuff">
+</form>
+
+<p><font size="2"> Grab customer:</font></p>
+<form method="POST" action="Manager.php">
+	orderID:<input type="text" name="orderID" size="4"> Table:<input type="text" name ="table" size="18">
+	<input type="submit" value="submit" name="doStuff">
 </form>
 
 <?php
@@ -148,11 +152,25 @@ function printResult($result) { //prints results from a select statement
 if ($db_conn) {
 
 	if (array_key_exists('doStuff', $_POST)) {
+<<<<<<< Updated upstream
 		$result = executePlainSQL("select * from " . $_POST['table'] . " where id =" . $_POST['eId'] ."");
 		printResult($result);
 	}
 	
 	echo "<br>Started Connection<br>";
+=======
+		$tuple = array(
+				":bind1" => $_POST['eId'],
+				":bind2" => $_POST['table']
+		);
+		$alltuples = array (
+				$tuple
+		);
+		$result = executeBoundSQL("select * from :bind2 where id = :bind1", $alltuples);
+		printResult($result);
+	};
+echo "<br>Started Connection<br>";
+>>>>>>> Stashed changes
 	if ($_POST && $error) {
 		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
 		header("location: Manager.php");
