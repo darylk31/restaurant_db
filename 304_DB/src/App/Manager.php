@@ -8,40 +8,40 @@
 <!--refresh page when submit-->
 	ID:<input type="number" name="eId" size="4"> Table:<input type="text" name ="table" size="18">
 	<!--define one variable to pass the value-->
-	<input type="submit" value="submit" name="doStuff">
+	<input type="submit" value="submit" name="employee">
 	
 </form></p>
 <p><font size="2"> Grab menu:</font></p>
 <form method="POST" action="Manager.php">
 	menuID:<input type="number" name="menuID" size="4"> itemID:<input type="number" name="itemID" size="4">
 	Table:<input type="text" name ="table" size="18">
-	<input type="submit" value="submit" name="doStuff">
+	<input type="submit" value="submit" name="menu">
 </form>
 
 <p><font size="2"> Grab inventory:</font></p>
 <form method="POST" action="Manager.php">
 	itemID:<input type="number" name="itemID" size="4"> Table:<input type="text" name ="table" size="18">
-	<input type="submit" value="submit" name="doStuff">
+	<input type="submit" value="submit" name="inventory">
 </form>
 
 <p><font size="2"> Grab orders:</font></p>
 <form method="POST" action="Manager.php">
 	orderID:<input type="number" name="orderID" size="4"> menuID:<input type="number" name="menuID" size="4">
 	Table:<input type="text" name ="table" size="18">
-	<input type="submit" value="submit" name="doStuff">
+	<input type="submit" value="submit" name="orders">
 </form>
 
 <p><font size="2"> Grab account:</font></p>
 <form method="POST" action="Manager.php">
 	userID:<input type="text" name="userID" size="20"> diningID:<input type="number" name="diningID" size="4">
 	Table:<input type="text" name ="table" size="18">
-	<input type="submit" value="submit" name="doStuff">
+	<input type="submit" value="submit" name="account">
 </form>
 
 <p><font size="2"> Grab customer:</font></p>
 <form method="POST" action="Manager.php">
 	orderID:<input type="text" name="orderID" size="4"> Table:<input type="text" name ="table" size="18">
-	<input type="submit" value="submit" name="doStuff">
+	<input type="submit" value="submit" name="customer">
 </form>
 
 <?php
@@ -49,30 +49,6 @@
 $error = False;
 $db = "(DESCRIPTION=(ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = dbhost.ugrad.cs.ubc.ca)(PORT = 1522)))(CONNECT_DATA=(SID=ug)))";
 $db_conn = OCILogon("ora_v5f0b", "a38894135", "$db");
-
-function findEmployee($cmdstr) {
-    global $db_conn, $error;
-    $statement = OCIParse($db_conn, "select * from $cmdstr where id = $cmdstr");
-
-    if (!$statement) {
-    		echo "<br>Cannot parse the following command: " . $cmdstr . "<br>";
-    		$e = OCI_Error($db_conn); // For OCIParse errors pass the
-    		// connection handle
-    		echo htmlentities($e['message']);
-    		$error = True;
-    	}
-
-    	$r = OCIExecute($statement, OCI_DEFAULT);
-    	if (!$r) {
-    		echo "<br>Cannot execute the following command: " . $cmdstr . "<br>";
-    		$e = oci_error($statement); // For OCIExecute errors pass the statementhandle
-    		echo htmlentities($e['message']);
-    		$error = True;
-    	} else {
-
-    	}
-    	return $statement;
-}
 
 function executePlainSQL($cmdstr) { //takes a plain (no bound variables) SQL command and executes it
 	//echo "<br>running ".$cmdstr."<br>";
@@ -151,8 +127,31 @@ function printResult($result) { //prints results from a select statement
 
 if ($db_conn) {
 
-	if (array_key_exists('doStuff', $_POST)) {
+	if (array_key_exists('employee', $_POST)) {
 		$result = executePlainSQL("select * from " . $_POST['table'] . " where id =" . $_POST['eId'] ."");
+		printResult($result);
+	}
+	if (array_key_exists('menu', $_POST)) {
+		$result = executePlainSQL("select * from " . $_POST['table'] . " where menuID =" . $_POST['menuID'] .
+																		"AND itemID =" . $_POST['itemID'] . "");
+		printResult($result);
+	}
+	if (array_key_exists('inventory', $_POST)) {
+		$result = executePlainSQL("select * from " . $_POST['table'] . " where itemID =" . $_POST['itemID'] . "");
+		printResult($result);
+	}
+	if (array_key_exists('orders', $_POST)) {
+		$result = executePlainSQL("select * from " . $_POST['table'] . " where orderID =" . $_POST['orderID'] . 
+																		"AND menuID =" . $_POST['menuID'] . "");
+		printResult($result);
+	}
+	if (array_key_exists('account', $_POST)) {
+		$result = executePlainSQL("select * from " . $_POST['table'] . " where diningID =" . $_POST['diningID'] . 
+																		"AND userID =" . $_POST['userID'] . "");
+		printResult($result);
+	}
+	if (array_key_exists('customer', $_POST)) {
+		$result = executePlainSQL("select * from " . $_POST['table'] . " where orderID =" . $_POST['orderID'] ."");
 		printResult($result);
 	}
 	
