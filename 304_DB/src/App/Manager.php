@@ -44,12 +44,16 @@
 	<input type="submit" value="submit" name="customer">
 </form>
 
-<p><font size="2"> Test a nested query:</font></p>
+<p><font size="2"> Find menu items below average price:</font></p>
 <form method="POST" action="Manager.php">
 <input type="submit" value="Perform nested query" name="testquery">
 </form>
 
-
+<p><font size="2"> Join menu and inventory:</font></p>
+<form method="POST" action="Manager.php">
+	menuID:<input type="text" name = "menuID" size="4">
+	<input type="submit" value="submit" name="jMenuInv">
+</form>
 
 <?php
 
@@ -121,7 +125,7 @@ function executeBoundSQL($cmdstr, $list) {
 }
 
 function printResult($result) { //prints results from a select statement
-	echo "<br>Got data from table employee:<br>";
+	//echo "<br>Got data from table employee:<br>";
 	echo "<table>";
 //	echo "<tr><th>ID</th><th>Name</th></tr>";
 
@@ -137,8 +141,11 @@ function printResult($result) { //prints results from a select statement
 }
 
 function testNestedQuery() {
-	$result = executePlainSQL("select itemName,price,AVG(price) from menu");// where price < (select AVG(price) from menu)");
-	printResult($result);
+		$result = executePlainSQL("select itemName,AVG(price)
+									from menu
+									where price < (select AVG(price) from menu)
+									group by itemName");	
+		printResult($result);
 }
 
 if ($db_conn) {
@@ -170,19 +177,26 @@ if ($db_conn) {
 		$result = executePlainSQL("select * from " . $_POST['table'] . " where orderID =" . $_POST['orderID'] ."");
 		printResult($result);
 	}
+	
 	if (array_key_exists('testquery', $_POST)) {
 		testNestedQuery();
+	}
+
+	if(array_key_exists('jMenuInv', $_POST)) {
+		$result = executePlainSQL("select * from menu, inventory where menu.menuid =" . $_POST['menuID'] . 
+																" AND menu.itemid = inventory.itemid");
+		printResult($result);
 	}
 	
 echo "<br>Started Connection<br>";
 	if ($_POST && $error) {
 		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
 		header("location: Manager.php");
-	} else {
+	}/* else {
 	// Select data...
-		$result = executePlainSQL("select ");
+		$result = executePlainSQL("");
 		printResult($result);
-	}
+	}*/
 
 	//Commit to save changes...
 	OCILogoff($db_conn);
