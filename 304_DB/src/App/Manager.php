@@ -152,13 +152,11 @@ function printResult($result) { //prints results from a select statement
 if ($db_conn) {
 
 	if (array_key_exists('doStuff', $_POST)) {
-<<<<<<< Updated upstream
 		$result = executePlainSQL("select * from " . $_POST['table'] . " where id =" . $_POST['eId'] ."");
 		printResult($result);
 	}
 	
 	echo "<br>Started Connection<br>";
-=======
 		$tuple = array(
 				":bind1" => $_POST['eId'],
 				":bind2" => $_POST['table']
@@ -170,7 +168,6 @@ if ($db_conn) {
 		printResult($result);
 	};
 echo "<br>Started Connection<br>";
->>>>>>> Stashed changes
 	if ($_POST && $error) {
 		//POST-REDIRECT-GET -- See http://en.wikipedia.org/wiki/Post/Redirect/Get
 		header("location: Manager.php");
