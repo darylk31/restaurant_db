@@ -7,18 +7,24 @@
 <p><font size="2"> Grab menu:</font></p>
 <form method="POST" action="Customer.php">
 	menuID:<input type="number" name="menuID" size="4"> Table:<input type="text" name ="table" size="18">
-	<input type="submit" value="submit" name="doStuff">
+	<input type="submit" value="submit" name="menu">
 </form>
 
 <p><font size="2"> Grab order:</font></p>
 <form method="POST" action="Customer.php">
 	orderID:<input type="number" name="orderID" size="4"> Table:<input type="text" name ="table" size="18">
-	<input type="submit" value="submit" name="doStuff">
+	<input type="submit" value="submit" name="order">
 </form>
 
 <p><font size="2"> Grab account:</font></p>
+<form method="POST" action="Customer.php">
 	userID:<input type="number" name="userID" size="4"> Table:<input type="text" name ="table" size="18">
-	<input type="submit" value="submit" name="doStuff">
+	<input type="submit" value="submit" name="account">
+</form>
+
+<p><font size="2"> Most expensive menu item:</font></p>
+<form method="POST" action="Customer.php">
+	<input type="submit" value="find" name="maxItem">
 </form>
 
 <?php
@@ -128,8 +134,20 @@ function printResult($result) { //prints results from a select statement
 
 if ($db_conn) {
 
-	if (array_key_exists('doStuff', $_POST)) {
-		$result = executePlainSQL("select * from " . $_POST['table'] . " where id =" . $_POST['eId'] ."");
+	if (array_key_exists('menu', $_POST)) {
+		$result = executePlainSQL("select * from " . $_POST['table'] . " where id =" . $_POST['menuID'] ."");
+		printResult($result);
+	}
+	if (array_key_exists('menu', $_POST)) {
+		$result = executePlainSQL("select * from " . $_POST['table'] . " where id =" . $_POST['orderID'] ."");
+		printResult($result);
+	}
+	if (array_key_exists('menu', $_POST)) {
+		$result = executePlainSQL("select * from " . $_POST['table'] . " where id =" . $_POST['useriD'] ."");
+		printResult($result);
+	}
+	if (array_key_exists('maxItem', $_POST)) {
+		$result = executePlainSQL("select * from menu m where m.price =(select max(m2.price) from menu m2)");
 		printResult($result);
 	}
 	
@@ -153,3 +171,4 @@ echo "<br>Started Connection<br>";
 
 
 ?>
+

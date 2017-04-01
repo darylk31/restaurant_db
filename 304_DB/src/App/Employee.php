@@ -4,15 +4,15 @@
 	<option value="Customer.php">Customer</option>
 </select>	
 <p><font size ="2"> Grab employee:</font></p>
-<form method="POST" action="Manager.php">
+<form method="POST" action="Employee.php">
 	ID:<input type="number" name="eId" size="4"> Table:<input type="text" name ="table" size="18">
-	<input type="submit" value="submit" name="doStuff">
+	<input type="submit" value="submit" name="employee">
 </form></p>
 
 <p><font size="2"> Grab order:</font></p>
-<form method="POST" action="Manager.php">
+<form method="POST" action="Employee.php">
 	orderID:<input type="number" name="orderID" size="4"> Table:<input type="text" name ="table" size="18">
-	<input type="submit" value="submit" name="doStuff">
+	<input type="submit" value="submit" name="order">
 </form>
 
 <?php
@@ -122,8 +122,12 @@ function printResult($result) { //prints results from a select statement
 
 if ($db_conn) {
 
-	if (array_key_exists('doStuff', $_POST)) {
+	if (array_key_exists('employee', $_POST)) {
 		$result = executePlainSQL("select * from " . $_POST['table'] . " where id =" . $_POST['eId'] ."");
+		printResult($result);
+	}
+	if (array_key_exists('order', $_POST)) {
+		$result = executePlainSQL("select * from " . $_POST['table'] . " where id =" . $_POST['orderID'] ."");
 		printResult($result);
 	}
 	

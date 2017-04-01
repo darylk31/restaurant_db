@@ -50,6 +50,18 @@
 	<input type="submit" value="submit" name="jMenuInv">
 </form>
 
+<p><font size="2"> Change wage:</font></p>
+<form method="POST" action="Manager.php">
+	eID:<input type="number" name="eId"  size="4"> Wage:<input type="number" name="wage" size="4">
+	<input type="submit" value="submit" name="updateWage">
+</form>
+	
+
+<p><font size="2"> Fire Lazy Deliverer</font></p>
+<form method="POST" action="Manager.php">
+	<input type="submit" value="delete" name="delDel">
+</form>
+
 <?php
 
 $error = False;
@@ -164,6 +176,21 @@ if ($db_conn) {
 		$result = executePlainSQL("select * from menu, inventory where menu.menuid =" . $_POST['menuID'] . 
 																" AND menu.itemid = inventory.itemid");
 		printResult($result);
+	}
+	if(array_key_exists('updateWage', $_POST)) {
+		
+		//if (10 < $wage < 20) {
+			$result = executePlainSQL("update employee set employee.wage =" . $_POST['wage'] . " where employee.id=" . $_POST['eId'] ."");
+			$employee = ("select * from employee");
+			printResult($employee);
+		//}
+	}
+	if(array_key_exists('delDel', $_POST)) {
+		$before = executePlainSQL("select * from employee");
+		printResult($before);
+		$result = executePlainSQL("delete from deliverer where id=2");
+		$after = executePlainSQL("select * from employee");
+		printResult($after);
 	}
 	
 echo "<br>Started Connection<br>";
